@@ -3,6 +3,8 @@ package de.exxcellent.challenge;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
@@ -14,10 +16,10 @@ import static java.util.Arrays.asList;
  */
 public final class App {
 
-    public static final List<Object> EXAMPLE_NESTED_LIST = Collections.unmodifiableList(
+    public static final List<Object> EXAMPLE_NESTED_LIST_INTEGERS = Collections.unmodifiableList(
             asList(1, asList(2, 3), asList(4, asList(5, 6)))
     );
-    public static final List<Object> EXAMPLE_NESTED_LIST_2 = Collections.unmodifiableList(
+    public static final List<Object> EXAMPLE_NESTED_LIST_STRINGS = Collections.unmodifiableList(
             asList(asList("a", asList("b", "c")), "d", asList("e", "f"))
     );
 
@@ -38,14 +40,30 @@ public final class App {
         return flattenListHelper(nestedList.subList(1,nestedList.size()), log);
     }
 
+    public static List<Object> flattenListUsingStream(List<Object> nestedList){
+        return nestedList.stream().flatMap(App::flatMapRecursive).collect(Collectors.toList());
+    }
+
+    public static Stream<Object> flatMapRecursive(Object object) {
+        if (!(object instanceof List))
+            return Stream.of(object);
+        return ((List<?>) object).stream().flatMap(App::flatMapRecursive);
+    }
+
     /**
      * This is the main entry method of your program.
      * @param args The CLI arguments passed
      */
     public static void main(String... args) {
-        List<Object> result = flattenList(EXAMPLE_NESTED_LIST);
+        List<Object> result = flattenList(EXAMPLE_NESTED_LIST_INTEGERS);
 
-        System.out.print(EXAMPLE_NESTED_LIST);
+        System.out.print(EXAMPLE_NESTED_LIST_INTEGERS);
+        System.out.print(" -> ");
+        System.out.println(result);
+
+        result = flattenListUsingStream(EXAMPLE_NESTED_LIST_STRINGS);
+
+        System.out.print(EXAMPLE_NESTED_LIST_STRINGS);
         System.out.print(" -> ");
         System.out.println(result);
     }

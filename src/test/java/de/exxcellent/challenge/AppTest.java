@@ -1,6 +1,5 @@
 package de.exxcellent.challenge;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
@@ -16,14 +15,28 @@ class AppTest {
 
     @Test
     void flattenListTest() {
-        List<Object> flattenedList = App.flattenList(App.EXAMPLE_NESTED_LIST);
+        List<Object> flattenedList = App.flattenList(App.EXAMPLE_NESTED_LIST_INTEGERS);
         List<Integer> goal = asList(1, 2, 3, 4, 5, 6);
         assertEquals(goal, flattenedList, "My expectations were not met");
     }
 
     @Test
     void flattenListTest2() {
-        List<Object> flattenedList = App.flattenList(App.EXAMPLE_NESTED_LIST_2);
+        List<Object> flattenedList = App.flattenList(App.EXAMPLE_NESTED_LIST_STRINGS);
+        List<String> goal = asList("a", "b", "c", "d", "e", "f");
+        assertEquals(goal, flattenedList, "My expectations were not met");
+    }
+
+    @Test
+    void flattenListUsingStreamTest() {
+        List<Object> flattenedList = App.flattenListUsingStream(App.EXAMPLE_NESTED_LIST_INTEGERS);
+        List<Integer> goal = asList(1, 2, 3, 4, 5, 6);
+        assertEquals(goal, flattenedList, "My expectations were not met");
+    }
+
+    @Test
+    void flattenListUsingStreamTest2() {
+        List<Object> flattenedList = App.flattenListUsingStream(App.EXAMPLE_NESTED_LIST_STRINGS);
         List<String> goal = asList("a", "b", "c", "d", "e", "f");
         assertEquals(goal, flattenedList, "My expectations were not met");
     }
