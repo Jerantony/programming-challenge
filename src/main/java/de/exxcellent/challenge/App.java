@@ -23,45 +23,18 @@ public final class App {
             asList(asList("a", asList("b", "c")), "d", asList("e", "f"))
     );
 
-    public static List<Object> flattenList(List<Object> nestedList){
-        return flattenListHelper(nestedList, new ArrayList<>());
-    }
-
-    public static List<Object> flattenListHelper(List<Object> nestedList, List<Object> log){
-        if (nestedList.isEmpty())
-                return log;
-
-        if (!(nestedList.get(0) instanceof List)){
-            log.add(nestedList.get(0));
-            return flattenListHelper(nestedList.subList(1, nestedList.size()), log);
-        }
-
-        log = flattenListHelper((List<Object>) nestedList.get(0), log);
-        return flattenListHelper(nestedList.subList(1,nestedList.size()), log);
-    }
-
-    public static List<Object> flattenListUsingStream(List<Object> nestedList){
-        return nestedList.stream().flatMap(App::flatMapRecursive).collect(Collectors.toList());
-    }
-
-    public static Stream<Object> flatMapRecursive(Object object) {
-        if (!(object instanceof List))
-            return Stream.of(object);
-        return ((List<?>) object).stream().flatMap(App::flatMapRecursive);
-    }
-
     /**
      * This is the main entry method of your program.
      * @param args The CLI arguments passed
      */
     public static void main(String... args) {
-        List<Object> result = flattenList(EXAMPLE_NESTED_LIST_INTEGERS);
+        List<Object> result = FlattenList.flattenList(EXAMPLE_NESTED_LIST_INTEGERS);
 
         System.out.print(EXAMPLE_NESTED_LIST_INTEGERS);
         System.out.print(" -> ");
         System.out.println(result);
 
-        result = flattenListUsingStream(EXAMPLE_NESTED_LIST_STRINGS);
+        result = FlattenList.flattenListUsingStream(EXAMPLE_NESTED_LIST_STRINGS);
 
         System.out.print(EXAMPLE_NESTED_LIST_STRINGS);
         System.out.print(" -> ");
