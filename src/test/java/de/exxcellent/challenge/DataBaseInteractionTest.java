@@ -35,12 +35,12 @@ class DataBaseInteractionTest {
             assert(dbInteraction.readTable("test").isEmpty());
 
             String table = "test";
-            String[] attributes = new String[]{"stringCol", "intCol"};
+            String[] attributes = new String[]{"stringCol", "intCol1", "intCol2"};
             List<String[]> values = new ArrayList<>();
-            values.add(new String[]{"'test'", "42"});
+            values.add(new String[]{"'test'", "42", "43"});
             dbInteraction.insertValues(table, attributes, values);
             List<String[]> output = dbInteraction.readTable("test");
-            assert(Arrays.equals(output.get(0), new String[]{"test", "42"}));
+            assert(Arrays.equals(output.get(0), new String[]{"test", "42", "43"}));
 
         } else {
             fail();
