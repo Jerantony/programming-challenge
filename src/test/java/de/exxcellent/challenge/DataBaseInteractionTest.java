@@ -13,63 +13,47 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DataBaseInteractionTest {
 
-    static private String successLabel = "not successful";
     static private DataBaseInteraction dbInteraction;
+    static private String table;
+    static private String[] attributes;
+    static private List<String[]> values;
 
     @BeforeAll
     static void setUp() {
-        successLabel = "successful";
         dbInteraction = new DataBaseInteraction();
-
+        table = "test";
+        attributes = new String[]{"stringCol", "intCol1", "intCol2"};
     }
 
-    @Test
-    void createTableTest() {
-        assertEquals("successful", successLabel, "My expectations were not met");
+    @BeforeEach
+    void setUpEach(){
+        values = new ArrayList<>();
+        if (dbInteraction.containsTable("test")){
+            dbInteraction.clearTable("test");
+            assert(dbInteraction.readTable("test").isEmpty());
+        } else {
+            fail();
+        }
     }
 
     @Test
     void insertValuesAndReadTableTest() {
-        if (dbInteraction.containsTable("test")){
-            dbInteraction.clearTable("test");
-
-            assert(dbInteraction.readTable("test").isEmpty());
-
-            String table = "test";
-            String[] attributes = new String[]{"stringCol", "intCol1", "intCol2"};
-            List<String[]> values = new ArrayList<>();
-            values.add(new String[]{"'test'", "42", "43"});
-            dbInteraction.insertValues(table, attributes, values);
-            List<String[]> output = dbInteraction.readTable("test");
-            assert(Arrays.equals(output.get(0), new String[]{"test", "42", "43"}));
-
-        } else {
-            fail();
-        }
+        values.add(new String[]{"'test'", "42", "43"});
+        dbInteraction.insertValues(table, attributes, values);
+        List<String[]> output = dbInteraction.readTable("test");
+        assert(Arrays.equals(output.get(0), new String[]{"test", "42", "43"}));
     }
 
     @Test
     void argMinAbsDiffTest() {
-        if (dbInteraction.containsTable("test")){
-            dbInteraction.clearTable("test");
-
-            assert(dbInteraction.readTable("test").isEmpty());
-
-            String table = "test";
-            String[] attributes = new String[]{"stringCol", "intCol1", "intCol2"};
-            List<String[]> values = new ArrayList<>();
-            values.add(new String[]{"'entry1'", "42", "50"});  // diff=8
-            values.add(new String[]{"'entry2'", "25", "13"});  // diff=12
-            values.add(new String[]{"'entry3'", "23", "19"});  // diff=4
-            values.add(new String[]{"'entry4'", "40", "3"});   // diff=37
-            values.add(new String[]{"'entry5'", "43", "57"});  // diff=14
-            dbInteraction.insertValues(table, attributes, values);
-            String argmin = dbInteraction.argMinAbsDiff(table, attributes[0], attributes[1], attributes[2]);
-            assertEquals("entry3", argmin);
-
-        } else {
-            fail();
-        }
+        values.add(new String[]{"'entry1'", "42", "50"});  // diff=8
+        values.add(new String[]{"'entry2'", "25", "13"});  // diff=12
+        values.add(new String[]{"'entry3'", "23", "19"});  // diff=4
+        values.add(new String[]{"'entry4'", "40", "3"});   // diff=37
+        values.add(new String[]{"'entry5'", "43", "57"});  // diff=14
+        dbInteraction.insertValues(table, attributes, values);
+        String argmin = dbInteraction.argMinAbsDiff(table, attributes[0], attributes[1], attributes[2]);
+        assertEquals("entry3", argmin);
     }
 
 }
