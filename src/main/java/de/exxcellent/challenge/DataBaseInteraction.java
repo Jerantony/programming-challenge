@@ -91,8 +91,20 @@ public class DataBaseInteraction {
         }
     }
 
+    /*
+    / returns the attribute arg of the smallest entry with respect to the absolute difference between the attributes
+    / attribute1 and attribute2
+     */
     public String argMinAbsDiff(String table, String arg, String attribute1, String attribute2){
-        //ToDo
+        String query = String.format("select %s from %s order by abs(%s-%s) asc;", arg, table, attribute1, attribute2);
+        try {
+            rs = stm.executeQuery(query);
+            if (rs.next())
+                return rs.getString(1);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return null;
     }
 
