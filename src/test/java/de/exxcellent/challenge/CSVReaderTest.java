@@ -8,14 +8,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-class csvReaderTest {
+class CSVReaderTest {
 
     private String filePath = "C:\\Users\\Jeremy\\IdeaProjects\\programming-challenge\\src\\main\\resources\\de\\exxcellent\\challenge\\weather.csv";
-    csvReader reader;
+    CSVReader reader;
 
     @BeforeEach
     void setUp() {
-        reader = new csvReader();
+        reader = new CSVReader();
     }
 
     @Test
