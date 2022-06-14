@@ -15,7 +15,7 @@ public class csvReader implements Reader{
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             while ((line = br.readLine()) != null) {
-                allLines.add(line.split(","));
+                allLines.add(line.replace(" ", "_").split(","));
             }
         }
         catch (IOException e) {

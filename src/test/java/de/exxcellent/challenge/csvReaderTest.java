@@ -24,6 +24,7 @@ class csvReaderTest {
         String[] attributes = allLines.get(0);
         List<String[]> values = allLines.subList(1, allLines.size());
         assertEquals("Day", attributes[0]);
+        assertEquals("1HrP_TPcpn", attributes[5]);
         assertEquals(88, Integer.parseInt(values.get(0)[1]));
     }
 
