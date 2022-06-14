@@ -25,10 +25,6 @@ public class DataBaseInteraction {
         }
     }
 
-    public void createTable(String name, String[] attributes){
-        //ToDo
-    }
-
     public boolean containsTable(String table){
         try {
             rs = stm.executeQuery(String.format("show tables like '%s';", table));
